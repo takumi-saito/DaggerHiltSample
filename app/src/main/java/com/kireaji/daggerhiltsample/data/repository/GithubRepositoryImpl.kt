@@ -3,9 +3,10 @@ package com.kireaji.daggerhiltsample.data.repository
 import com.kireaji.daggerhiltsample.data.api.GithubClient
 import com.kireaji.daggerhiltsample.data.api.toModel
 import com.kireaji.daggerhiltsample.data.model.GithubRepo
+import javax.inject.Inject
 
 
-class GithubRepositoryImpl private constructor(
+class GithubRepositoryImpl @Inject constructor(
     private val client: GithubClient
 ) : GithubRepository {
     override suspend fun searchRepos(userName: String): List<GithubRepo> {
@@ -13,18 +14,5 @@ class GithubRepositoryImpl private constructor(
             .map {
                 it.toModel()
             }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: GithubRepository? = null
-
-        fun getInstance(
-            githubClient: GithubClient
-        ): GithubRepository {
-            return instance ?: GithubRepositoryImpl(githubClient).also {
-                instance = it
-            }
-        }
     }
 }

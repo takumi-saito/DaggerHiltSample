@@ -1,8 +1,9 @@
 package com.kireaji.daggerhiltsample.data.api
 
 import java.lang.IllegalStateException
+import javax.inject.Inject
 
-class GithubClient private constructor(
+class GithubClient @Inject constructor(
     private val service: GithubService
 ) {
 
@@ -13,16 +14,5 @@ class GithubClient private constructor(
         }
         val body = response.body() ?: throw IllegalStateException("body is null.")
         return body
-    }
-
-    companion object {
-        @Volatile
-        private var instance: GithubClient? = null
-
-        fun getInstance(service: GithubService): GithubClient {
-            return instance ?: GithubClient(service).also {
-                instance = it
-            }
-        }
     }
 }

@@ -20,6 +20,12 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideAppObject(): AppObject {
+        return AppObject()
+    }
+
+    @Singleton
+    @Provides
     fun provideRepository(client: GithubClient): GithubRepository {
         return GithubRepositoryImpl(client)
     }

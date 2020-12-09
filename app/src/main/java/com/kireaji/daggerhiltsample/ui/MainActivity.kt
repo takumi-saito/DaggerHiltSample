@@ -1,10 +1,13 @@
 package com.kireaji.daggerhiltsample.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.kireaji.daggerhiltsample.R
 import com.kireaji.daggerhiltsample.data.repository.GithubRepository
+import com.kireaji.daggerhiltsample.di.ActivityObject
+import com.kireaji.daggerhiltsample.di.AppObject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,6 +19,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var appObject: AppObject
+    @Inject
+    lateinit var activityObject: ActivityObject
     @Inject
     lateinit var repository: GithubRepository
 
@@ -35,5 +42,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        findViewById<Button>(R.id.button_2).setOnClickListener {
+            startActivity(
+                Intent(this, SecondActivity::class.java)
+            )
+        }
+
+        Timber.d("appObject hash:${appObject.hash()}")
+        Timber.d("activityObject hash:${activityObject.hash()}")
     }
 }

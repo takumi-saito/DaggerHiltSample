@@ -32,18 +32,25 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideService(): GithubService {
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
+    fun provideService(retrofit: Retrofit): GithubService {
+        return retrofit.create(GithubService::class.java)
+    }
 
-        // create retrofit
-        val retrofit = Retrofit.Builder()
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl("https://api.github.com/")
             .client(okHttpClient)
             .build()
-        return retrofit.create(GithubService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideOkHttp(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+    }
 }

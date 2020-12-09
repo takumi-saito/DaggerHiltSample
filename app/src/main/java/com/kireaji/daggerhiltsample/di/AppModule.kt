@@ -1,4 +1,4 @@
-package com.kireaji.daggerhiltsample.dagger
+package com.kireaji.daggerhiltsample.di
 
 import com.kireaji.daggerhiltsample.data.api.GithubClient
 import com.kireaji.daggerhiltsample.data.api.GithubService
